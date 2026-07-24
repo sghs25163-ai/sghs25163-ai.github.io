@@ -1,7 +1,225 @@
-<html>
-<head><title>ai
-</title>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrivacyLens | 개인정보 지킴이</title>
+<meta name="description" content="개인정보 처리방침 번역기와 피싱 탐지기, 오늘의 보안 뉴스를 한곳에서">
+<link rel="stylesheet" href="style.css">
+<script src="theme.js"></script>
 </head>
-<body>vibecoding1
+<body>
+
+<nav class="navbar">
+  <a href="#top" class="logo"><span class="mark">🔒</span>PrivacyLens</a>
+  <ul class="nav-links">
+    <li><a href="#top">홈</a></li>
+    <li><a href="#policy">처리방침 번역기</a></li>
+    <li><a href="#phishing">피싱 탐지기</a></li>
+    <li><a href="#news">보안 뉴스</a></li>
+  </ul>
+  <div class="nav-right">
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="테마 전환">🌙</button>
+    <button class="nav-toggle" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header id="top" class="hero">
+  <div class="hero-content">
+    <span class="badge">🔐 AI 개인정보 지킴이 플랫폼</span>
+    <h1>어려운 개인정보 처리방침,<br><span class="accent">한눈에 쉽게</span> 정리해드려요</h1>
+    <p>긴 약관을 다 읽을 필요 없이, 어떤 정보를 수집하고 얼마나 보관하는지 바로 확인하세요.
+      의심스러운 이메일이나 링크는 붙여넣기만 하면 위험도를 분석해드립니다.</p>
+    <div class="hero-buttons">
+      <a href="#policy" class="btn btn-primary">📄 처리방침 번역기</a>
+      <a href="#phishing" class="btn btn-outline">🎣 피싱 탐지기</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="tip">
+    <div class="section-head">
+      <div class="section-title">💡 오늘의 개인정보 보호 팁</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">💡</div>
+      <div class="tip-body">
+        <span class="tip-label">Today's Tip</span>
+        <p id="tip-text">불러오는 중...</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="policy">
+    <div class="section-head">
+      <div class="section-title">📄 개인정보 처리방침 번역기</div>
+      <p class="section-desc">기업의 개인정보 처리방침 전문을 붙여넣으면, 어떤 정보를 수집하고 얼마나 보관하는지 핵심만 뽑아서 정리해드려요.</p>
+    </div>
+
+    <div class="panel">
+      <h3>처리방침 원문 붙여넣기</h3>
+      <textarea id="policy-input" rows="10" placeholder="여기에 개인정보 처리방침 전체 텍스트를 붙여넣으세요..."></textarea>
+      <div class="panel-actions">
+        <button id="policy-analyze-btn" class="btn btn-primary">🔍 분석하기</button>
+        <button id="policy-sample-btn" class="sample-link" type="button">예시 처리방침으로 먼저 체험해보기</button>
+      </div>
+      <p class="disclaimer">
+        ⚠️ 이 도구는 텍스트 안의 키워드와 문장 패턴을 찾아 자동으로 정리해주는 규칙 기반 분석기입니다.
+        법률 자문이 아니며, 실제 계약이나 법적 판단은 원문과 전문가 확인을 거치세요.
+      </p>
+    </div>
+
+    <div id="policy-result-wrap" class="result-wrap">
+      <div class="panel" style="margin-bottom: 18px;">
+        <h4 style="margin-bottom: 10px;">📝 한눈에 요약</h4>
+        <p id="policy-summary-text" class="value"></p>
+      </div>
+
+      <div id="policy-risk-banner" class="verdict-banner">
+        <div id="policy-risk-icon" class="verdict-icon">✅</div>
+        <div class="verdict-text">
+          <div id="policy-risk-label" class="verdict-label">-</div>
+          <div id="policy-risk-score" class="verdict-score">-</div>
+        </div>
+      </div>
+      <div id="policy-risk-list" class="reason-list" style="margin-bottom: 22px;"></div>
+
+      <div class="checklist-title">🗂️ 항목별 상세 정리</div>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>📦 수집하는 개인정보 항목</h4>
+          <div id="summary-collect"></div>
+        </div>
+        <div class="summary-card">
+          <h4>⏳ 보유기간 / 파기</h4>
+          <div id="summary-retention"></div>
+        </div>
+        <div class="summary-card">
+          <h4>🤝 제3자 제공</h4>
+          <div id="summary-thirdparty"></div>
+        </div>
+        <div class="summary-card">
+          <h4>🎯 이용 목적</h4>
+          <div id="summary-purpose"></div>
+        </div>
+        <div class="summary-card">
+          <h4>🙋 이용자 권리</h4>
+          <div id="summary-rights"></div>
+        </div>
+        <div class="summary-card">
+          <h4>☎️ 담당자 / 문의처</h4>
+          <div id="summary-contact"></div>
+        </div>
+      </div>
+
+      <div class="summary-card" style="margin-bottom: 20px;">
+        <h4>🍪 기타 확인 사항</h4>
+        <div id="summary-extra"></div>
+      </div>
+
+      <div class="checklist-title">✅ 체크리스트</div>
+      <div id="checklist" class="reason-list"></div>
+    </div>
+  </section>
+
+  <section id="phishing">
+    <div class="section-head">
+      <div class="section-title">🎣 피싱 탐지기</div>
+      <p class="section-desc">의심스러운 이메일 본문, 링크(URL), 전화번호를 붙여넣으면 잘 알려진 피싱 패턴을 분석해서 위험도를 알려드려요.</p>
+    </div>
+
+    <div class="panel">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="email" type="button">✉️ 이메일 본문</button>
+        <button class="tab-btn" data-tab="url" type="button">🔗 URL</button>
+        <button class="tab-btn" data-tab="phone" type="button">📞 전화번호</button>
+      </div>
+
+      <div id="panel-email" class="tab-panel active">
+        <h3>의심스러운 이메일/문자 본문 붙여넣기</h3>
+        <textarea id="email-input" rows="8" placeholder="발신자 정보와 함께 이메일 또는 문자 내용 전체를 붙여넣으세요..."></textarea>
+        <div class="panel-actions">
+          <button id="email-analyze-btn" class="btn btn-primary">🔍 위험도 분석하기</button>
+          <button id="email-sample-btn" class="sample-link" type="button">예시 피싱 메일로 체험해보기</button>
+        </div>
+      </div>
+
+      <div id="panel-url" class="tab-panel">
+        <h3>의심스러운 URL 붙여넣기</h3>
+        <input type="text" id="url-input" placeholder="예: http://example-login-verify.com">
+        <div class="panel-actions">
+          <button id="url-analyze-btn" class="btn btn-primary">🔍 위험도 분석하기</button>
+          <button id="url-sample-btn" class="sample-link" type="button">예시 URL로 체험해보기</button>
+        </div>
+      </div>
+
+      <div id="panel-phone" class="tab-panel">
+        <h3>의심스러운 전화번호 입력</h3>
+        <input type="text" id="phone-input" placeholder="예: 070-1234-5678">
+        <div class="panel-actions">
+          <button id="phone-analyze-btn" class="btn btn-primary">🔍 위험도 분석하기</button>
+          <button id="phone-sample-btn" class="sample-link" type="button">예시 번호로 체험해보기</button>
+        </div>
+      </div>
+
+      <p class="disclaimer">
+        ⚠️ 이 도구는 본문/URL/번호에 나타나는 잘 알려진 피싱 패턴을 텍스트로만 분석합니다.
+        실제로 링크에 접속하거나 전화를 걸어 확인하지 않으며, 100% 정확한 판별을 보장하지 않습니다.
+        의심스러운 경우 절대 링크를 클릭하거나 정보를 입력하지 말고, 해당 기관의 공식 채널로 직접 확인하세요.
+      </p>
+    </div>
+
+    <div id="phishing-result-wrap" class="result-wrap">
+      <div id="phishing-verdict-banner" class="verdict-banner">
+        <div id="phishing-verdict-icon" class="verdict-icon">✅</div>
+        <div class="verdict-text">
+          <div id="phishing-verdict-label" class="verdict-label">-</div>
+          <div id="phishing-verdict-score" class="verdict-score">-</div>
+        </div>
+      </div>
+
+      <div class="checklist-title">🔎 분석 근거</div>
+      <div id="phishing-reason-list" class="reason-list"></div>
+
+      <div id="phishing-official-check" class="data-note" style="display:none; margin-top:18px;">
+        📞 전화번호는 텍스트 패턴만으로 정확히 판별하기 어려워요. 의심스러운 번호는 해당 기관의
+        공식 대표번호로 직접 확인하거나, <strong>KISA 118</strong>(불법스팸/전화 상담) 또는
+        <strong>경찰청 112 / 사이버범죄 신고 시스템(ECRM)</strong>으로 신고·상담하세요.
+      </div>
+    </div>
+  </section>
+
+  <section id="news">
+    <div class="section-head">
+      <div class="section-title">📰 최신 보안 뉴스 &amp; 유출 사건</div>
+    </div>
+    <div class="list-grid">
+      <div class="list-col">
+        <h3>보안 뉴스</h3>
+        <div class="item-list" id="news-list"></div>
+      </div>
+      <div class="list-col">
+        <h3>최근 유출 사건</h3>
+        <div class="item-list" id="breach-list"></div>
+      </div>
+    </div>
+    <div class="data-note">
+      ℹ️ 위 뉴스와 유출 사건 정보는 데모용 예시 데이터입니다. 실제 서비스로 운영하려면 보안 뉴스 API·RSS나
+      개인정보보호위원회 등 공공데이터와 연동해 <code>home.js</code>의 NEWS / BREACHES 데이터를 교체하면 됩니다.
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>PrivacyLens · 이 사이트의 분석 결과는 참고용이며 법적 효력이 없습니다.</p>
+</footer>
+
+<script src="nav.js"></script>
+<script src="home.js"></script>
+<script src="policy.js"></script>
+<script src="phishing.js"></script>
 </body>
 </html>
